@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-type Cubes struct {
+type cubes struct {
 	Reds   int
 	Greens int
 	Blues  int
@@ -41,8 +41,8 @@ func Execute() {
 	fmt.Println("Result of puzzle 2:", sum2)
 }
 
-func getHighestCubesOfRound(line string) Cubes {
-	highestC := Cubes{Reds: 0, Greens: 0, Blues: 0}
+func getHighestCubesOfRound(line string) cubes {
+	highestC := cubes{Reds: 0, Greens: 0, Blues: 0}
 
 	reg := regexp.MustCompile(`(\d+)\sblue`)
 	matches := reg.FindAllStringSubmatch(line, -1)
@@ -77,8 +77,8 @@ func getHighestCubesOfRound(line string) Cubes {
 	return highestC
 }
 
-func gameIsValid(highestC Cubes) bool {
-	maxCubes := Cubes{
+func gameIsValid(highestC cubes) bool {
+	maxCubes := cubes{
 		Reds:   12,
 		Greens: 13,
 		Blues:  14,
