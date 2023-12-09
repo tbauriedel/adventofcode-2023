@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-type seedData struct {
+type seedBlueprint struct {
 	seed        int
 	soil        int
 	fertilizer  int
@@ -27,9 +27,11 @@ type rangeObject struct {
 }
 
 var (
-	seeds []seedData
+	lowestSeed seedBlueprint
+	seedPoints []int
 )
 
+// Execute works for part 2 of day 5, but is not very performance optimized. So cant run it on my local
 func Execute() {
 	file, err := os.ReadFile("inputs/day05.txt")
 	if err != nil {
@@ -41,9 +43,17 @@ func Execute() {
 	reg := regexp.MustCompile(`(\d+)`)
 	resSeeds := reg.FindAllString(parts[0], -1)
 
-	for _, match := range resSeeds {
-		seedID, _ := strconv.Atoi(match)
-		seed := seedData{seed: seedID}
+	for cnt := 0; cnt < len(resSeeds); cnt = cnt + 2 {
+		rangeStart, _ := strconv.Atoi(resSeeds[cnt])
+		rangeLength, _ := strconv.Atoi(resSeeds[cnt+1])
+
+		for i := rangeStart; i < rangeStart+rangeLength; i++ {
+			seedPoints = append(seedPoints, i)
+		}
+	}
+
+	for _, match := range seedPoints {
+		seed := seedBlueprint{seed: match}
 		seed.getCorrespondence(parts[1], "soil")
 		seed.getCorrespondence(parts[2], "fertilizer")
 		seed.getCorrespondence(parts[3], "water")
@@ -52,24 +62,19 @@ func Execute() {
 		seed.getCorrespondence(parts[6], "humidity")
 		seed.getCorrespondence(parts[7], "location")
 
-		seeds = append(seeds, seed)
-	}
-
-	sum1 := 0
-	for _, seed := range seeds {
-		if sum1 == 0 {
-			sum1 = seed.location
+		if lowestSeed.location == 0 {
+			lowestSeed = seed
 			continue
 		}
-		if seed.location < sum1 {
-			sum1 = seed.location
+		if seed.location < lowestSeed.location {
+			lowestSeed = seed
 		}
 	}
 
-	fmt.Println("Result of puzzle 1:", sum1)
+	fmt.Println("Result of puzzle 2:", lowestSeed.location)
 }
 
-func (s *seedData) getCorrespondence(content string, mode string) {
+func (s *seedBlueprint) getCorrespondence(content string, mode string) {
 	var source *int
 	var dest *int
 
