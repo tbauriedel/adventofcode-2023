@@ -7,6 +7,7 @@ import (
 	"github.com/tbauriedel/adventofcode-2023/internal/day03"
 	"github.com/tbauriedel/adventofcode-2023/internal/day04"
 	"github.com/tbauriedel/adventofcode-2023/internal/day05"
+	"github.com/tbauriedel/adventofcode-2023/internal/day06"
 )
 
 var (
@@ -16,6 +17,7 @@ var (
 		"03": day03.Execute,
 		"04": day04.Execute,
 		"05": day05.Execute,
+		"06": day06.Execute,
 	}
 )
 
